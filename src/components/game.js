@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import AddHistory from './add_history';
+// import Sound from 'react-sound';
 
 class Game extends Component {
     constructor(props){
@@ -10,7 +10,7 @@ class Game extends Component {
             display: '',
             guessCounter: 0,
             previousGuessedNumbers: [],
-            hasWon: false
+            hasWon: false,
         };
         this.handleInputChange=this.handleInputChange.bind(this);
         this.handleSubmittedGuess=this.handleSubmittedGuess.bind(this);
@@ -94,9 +94,25 @@ class Game extends Component {
         console.log('Guessed Number', guessedNumber);
         console.log('Random Number', randomNumber);
         console.log('Number of guesses:', guessCounter);
+        let listOfPreviousGuesses=previousGuessedNumbers.map((item,index) =>{
+            return(
+                <li key ={index} className='justify-content-center list-group-item list-group-item-warning'> Previous Guess | {item} </li>
+            )
+        });
+        let smallStyle= {
+            display:"block",
+            textAlign: "center"
+        };
         return (
             <div className='container'>
-                <h1 className="text-center my-3">Guess a Number between 1-10</h1>
+                {/*<Sound*/}
+                    {/*url:"./assets/rainforest.mp3"*/}
+                    {/*playStatus={Sound.status.PLAYING}*/}
+                {/*/>*/}
+                <div className='jumbotron'>
+                    <h1 className="text-center my-3 ">Guess a Number between 1-10</h1>
+                    <small style={smallStyle}>Who knows, you might just hit it</small>
+                    <hr/>
                     <form onSubmit= {(e)=>{this.handleSubmittedGuess(e)}}>
                         <div className='form-group row'>
                             <div className='col-8 push-2 text-center'>
@@ -116,13 +132,13 @@ class Game extends Component {
                 <div className='guessed-numbers-display row'>
                     <div className='col-8 push-2 text-center'>
                         <ul className='list-group'>
-                            <li className='justify-content-center list-group-item list-group-item-warning'> Number of Guesses | {guessCounter}</li>
-                            <li className='justify-content-center list-group-item list-group-item-warning'> Previous Guess | {previousGuessedNumbers} </li>
+                            <li className='justify-content-center list-group-item list-group-item-danger'> Number of Guesses | {guessCounter}</li>
+                            {listOfPreviousGuesses}
                         </ul>
                         {/*<AddHistory history={this.state.previousGuessedNumbers}/>*/}
                     </div>
                 </div>
-
+                </div>
             </div>
         )
     }

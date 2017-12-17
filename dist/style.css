@@ -1,0 +1,16 @@
+body{
+    background-color: lightskyblue;
+    height: 100%;
+    background-image: url("https://cdn-media-2.lifehack.org/wp-content/files/2012/12/Nature_2-1024x768.jpg");
+}
+.container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    /*background-color: transparent;*/
+}
+div.jumbotron{
+    /*background-color: transparent;*/
+    opacity: 0.8;
+}
