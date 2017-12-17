@@ -8,7 +8,7 @@ class Game extends Component {
             guessedNumber: '',
             display: '',
             guessCounter: 0,
-            previousGuessedNumbers: this.props.previousGuessedNumbers
+            previousGuessedNumbers: ''
         };
         this.handleInputChange=this.handleInputChange.bind(this);
         this.handleSubmittedGuess=this.handleSubmittedGuess.bind(this);
@@ -27,6 +27,7 @@ class Game extends Component {
     handleSubmittedGuess(e){
         const {randomNumber,guessedNumber}= this.state;
         let {guessCounter}= this.state;
+        localStorage.setItem('previousGuesses', guessedNumber);
         // localStorage.setItem('previousGuessedNumbers', JSON.stringify(previousGuessedNumbers));
         e.preventDefault();
         console.log('Guessed Number in handleSubmit', guessedNumber);
@@ -38,7 +39,7 @@ class Game extends Component {
            console.log('Kid you Guessed it!');
            this.setState({
                display: 'Kid you Guessed it',
-               guessCounter: guessCounter+1
+               guessCounter: guessCounter+1,
            });
            setTimeout(this.reset,1000)
         }else if (parseInt(guessedNumber) < randomNumber){
@@ -70,6 +71,8 @@ class Game extends Component {
     }
     render(){
         const {randomNumber,guessedNumber, display, guessCounter}=this.state;
+        const previousGuessedNumbers=localStorage.getItem('previousGuesses');
+        console.log('previous guessed numbers' ,previousGuessedNumbers);
         console.log('Guessed Number', guessedNumber);
         console.log('Random Number', randomNumber);
         console.log('Number of guesses:', guessCounter);
@@ -94,7 +97,7 @@ class Game extends Component {
                 </div>
                 <div className='guessed-numbers-display row'>
                     <div className='col-8 push-2 text-center'>
-                        {/*{previousGuessedNumbers}*/}
+                        {previousGuessedNumbers}
                     </div>
                 </div>
 
