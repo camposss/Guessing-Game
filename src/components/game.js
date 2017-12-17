@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import AddHistory from './add_history';
 
 class Game extends Component {
     constructor(props){
@@ -8,7 +9,8 @@ class Game extends Component {
             guessedNumber: '',
             display: '',
             guessCounter: 0,
-            previousGuessedNumbers: ''
+            previousGuessedNumbers: [],
+            hasWon: false
         };
         this.handleInputChange=this.handleInputChange.bind(this);
         this.handleSubmittedGuess=this.handleSubmittedGuess.bind(this);
@@ -19,45 +21,58 @@ class Game extends Component {
         return randomNumber;
     }
     handleInputChange(e){
-        console.log(e.target.value);
-        this.setState({
-            guessedNumber: e.target.value
-        })
+        const {hasWon}=this.state;
+        if(hasWon===false){
+            console.log(e.target.value);
+            this.setState({
+                guessedNumber: e.target.value
+            })
+        }
     }
     handleSubmittedGuess(e){
-        const {randomNumber,guessedNumber}= this.state;
+        const {randomNumber,guessedNumber,hasWon,previousGuessedNumbers}= this.state;
         let {guessCounter}= this.state;
         localStorage.setItem('previousGuesses', guessedNumber);
-        // localStorage.setItem('previousGuessedNumbers', JSON.stringify(previousGuessedNumbers));
+        previousGuessedNumbers.push(guessedNumber);
+        if(!hasWon){
         e.preventDefault();
         console.log('Guessed Number in handleSubmit', guessedNumber);
         console.log('Random Number in handleSubmit', randomNumber);
-        if (guessedNumber===''){
-            this.setState({display: 'Please enter a number'});
-        }
-        if (parseInt(guessedNumber)===randomNumber){
-           console.log('Kid you Guessed it!');
-           this.setState({
-               display: 'Kid you Guessed it',
-               guessCounter: guessCounter+1,
-           });
-           setTimeout(this.reset,1000)
-        }else if (parseInt(guessedNumber) < randomNumber){
-            console.log('Too Low!');
-            this.setState({
+        // console.log('previous guessed numbers in handleSubmit' ,previousGuessedNumbers);
+            if (guessedNumber===''){
+                this.setState({
+                    display: 'Please enter a number',
+                });
+            }
+            if (parseInt(guessedNumber)===randomNumber){
+                console.log('Kid you Guessed it!');
+                this.setState({
+                    display: 'Kid you Guessed it',
+                    guessCounter: guessCounter+1,
+                    previousGuessedNumbers: previousGuessedNumbers,
+                    hasWon: true
+                });
+                setTimeout(this.reset,1000)
+            }else if (parseInt(guessedNumber) < randomNumber){
+                console.log('Too Low!');
+                this.setState({
                     guessedNumber:'',
                     display: 'Too Low!',
-                    guessCounter: guessCounter+1
-            });
+                    guessCounter: guessCounter+1,
+                    previousGuessedNumbers: previousGuessedNumbers
+                });
+            }
+            else if (parseInt(guessedNumber) > randomNumber){
+                console.log('Too High!');
+                this.setState({
+                    guessedNumber:'',
+                    display: 'Too High!',
+                    guessCounter: guessCounter+1,
+                    previousGuessedNumbers: previousGuessedNumbers
+                });
+            }
         }
-        else if (parseInt(guessedNumber) > randomNumber){
-            console.log('Too High!');
-            this.setState({
-                guessedNumber:'',
-                display: 'Too High!',
-                guessCounter: guessCounter+1
-            });
-        }
+
     }
     reset(){
         console.log('Resetting the Game');
@@ -65,13 +80,16 @@ class Game extends Component {
             randomNumber: this.getRandomNumber(),
             guessedNumber: '',
             display: '',
-            guessCounter: 0
+            guessCounter: 0,
+            previousGuessedNumbers: [],
+            hasWon:false
         };
+        localStorage.clear();
         this.setState(newState);
     }
     render(){
-        const {randomNumber,guessedNumber, display, guessCounter}=this.state;
-        const previousGuessedNumbers=localStorage.getItem('previousGuesses');
+        const {randomNumber,guessedNumber, display, guessCounter,previousGuessedNumbers}=this.state;
+        // let previousGuessedNumbers=localStorage.getItem('previousGuesses');
         console.log('previous guessed numbers' ,previousGuessedNumbers);
         console.log('Guessed Number', guessedNumber);
         console.log('Random Number', randomNumber);
@@ -97,7 +115,11 @@ class Game extends Component {
                 </div>
                 <div className='guessed-numbers-display row'>
                     <div className='col-8 push-2 text-center'>
-                        {previousGuessedNumbers}
+                        <ul className='list-group'>
+                            <li className='justify-content-center list-group-item list-group-item-warning'> Number of Guesses | {guessCounter}</li>
+                            <li className='justify-content-center list-group-item list-group-item-warning'> Previous Guess | {previousGuessedNumbers} </li>
+                        </ul>
+                        {/*<AddHistory history={this.state.previousGuessedNumbers}/>*/}
                     </div>
                 </div>
 
