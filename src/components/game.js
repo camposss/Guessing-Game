@@ -36,6 +36,10 @@ class Game extends Component {
         let {guessCounter}= this.state;
         localStorage.setItem('previousGuesses', guessedNumber);
         previousGuessedNumbers.push(guessedNumber);
+        if(guessCounter===10){
+            this.reset();
+            return;
+        }
         if(!hasWon){
         e.preventDefault();
         console.log('Guessed Number in handleSubmit', guessedNumber);
@@ -124,14 +128,13 @@ class Game extends Component {
             <div className='container'>
                 <div className='jumbotron'>
                     <h1 className="text-center my-3 ">Guess a Number between 1- {range}</h1>
-                    <small style={smallStyle}>Who knows, you might just hit it</small>
+                    <small style={smallStyle}>You got 10 chances to hit it...Good Luck</small>
                     <hr/>
                     <form onSubmit= {(e)=>{this.handleSubmittedGuess(e)}}>
                         <div className='form-group row'>
                             <div className='col-8 push-2 text-center'>
                                 <input onChange={(e)=>{this.handleInputChange(e)}} value={guessedNumber}
-                                       className ='form-control text-center' type="number" autoFocus
-                                />
+                                       className ='form-control text-center' type="number" autoFocus/>
                                 <button  type='button' className='btn btn-outline-success'>Submit</button>
                                 <button onClick={this.reset} type='button' className='btn btn-outline-danger'>Reset</button>
                                 <button onClick={this.changeRange} type='button' className='btn btn-outline-warning'>Randomize Range</button>
