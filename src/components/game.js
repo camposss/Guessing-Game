@@ -11,10 +11,12 @@ class Game extends Component {
             guessCounter: 0,
             previousGuessedNumbers: [],
             hasWon: false,
+            range: '10'
         };
         this.handleInputChange=this.handleInputChange.bind(this);
         this.handleSubmittedGuess=this.handleSubmittedGuess.bind(this);
         this.reset=this.reset.bind(this);
+        this.changeRange= this.changeRange.bind(this);
     }
     getRandomNumber(){
         const randomNumber= Math.floor(Math.random()*10+1);
@@ -74,6 +76,21 @@ class Game extends Component {
         }
 
     }
+    changeRange(){
+        const {range}= this.state;
+        const rangeArray= [2,10,100,1000,10000,100000,1000000];
+        const newRange= rangeArray[Math.floor(Math.random()*rangeArray.length)];
+        if(parseInt(range)===newRange){
+            this.changeRange();
+            return;
+        }
+        const newRandomNumber= Math.floor(Math.random()*newRange+1);
+        console.log(newRandomNumber);
+        this.setState({
+            randomNumber: newRandomNumber,
+            range: newRange
+        })
+    }
     reset(){
         console.log('Resetting the Game');
         const newState= {
@@ -88,7 +105,7 @@ class Game extends Component {
         this.setState(newState);
     }
     render(){
-        const {randomNumber,guessedNumber, display, guessCounter,previousGuessedNumbers}=this.state;
+        const {randomNumber,guessedNumber, display, guessCounter,previousGuessedNumbers,range}=this.state;
         // let previousGuessedNumbers=localStorage.getItem('previousGuesses');
         console.log('previous guessed numbers' ,previousGuessedNumbers);
         console.log('Guessed Number', guessedNumber);
@@ -105,12 +122,8 @@ class Game extends Component {
         };
         return (
             <div className='container'>
-                {/*<Sound*/}
-                    {/*url:"./assets/rainforest.mp3"*/}
-                    {/*playStatus={Sound.status.PLAYING}*/}
-                {/*/>*/}
                 <div className='jumbotron'>
-                    <h1 className="text-center my-3 ">Guess a Number between 1-10</h1>
+                    <h1 className="text-center my-3 ">Guess a Number between 1- {range}</h1>
                     <small style={smallStyle}>Who knows, you might just hit it</small>
                     <hr/>
                     <form onSubmit= {(e)=>{this.handleSubmittedGuess(e)}}>
@@ -121,6 +134,7 @@ class Game extends Component {
                                 />
                                 <button  type='button' className='btn btn-outline-success'>Submit</button>
                                 <button onClick={this.reset} type='button' className='btn btn-outline-danger'>Reset</button>
+                                <button onClick={this.changeRange} type='button' className='btn btn-outline-warning'>Randomize Range</button>
                             </div>
                         </div>
                     </form>
