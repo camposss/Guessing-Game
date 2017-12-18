@@ -135,7 +135,7 @@ class Game extends Component {
                             <div className='col-8 push-2 text-center'>
                                 <input onChange={(e)=>{this.handleInputChange(e)}} value={guessedNumber}
                                        className ='form-control text-center' type="number" autoFocus/>
-                                <button  type='button' className='btn btn-outline-success'>Submit</button>
+                                <button type='button' className='btn btn-outline-success'>Submit</button>
                                 <button onClick={this.reset} type='button' className='btn btn-outline-danger'>Reset</button>
                                 <button onClick={this.changeRange} type='button' className='btn btn-outline-warning'>Randomize Range</button>
                             </div>
