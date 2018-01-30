@@ -2,7 +2,7 @@ import React from 'react';
 import Game from './game'
 
 const App = () => (
-    <div className="container">
+    <div>
         <Game/>
     </div>
 );

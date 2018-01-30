@@ -8,9 +8,12 @@ body{
 }
 .container{
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+    top: 15%;
+    left: 5%;
+    /*transform: translate(-50%,-50%);*/
+}
+.buttonContainer{
+    margin: auto;
 }
 div.jumbotron{
     opacity: 0.8;
