@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import History from './add_history';
 
 class Game extends Component {
     constructor(props){
@@ -10,8 +11,9 @@ class Game extends Component {
             guessCounter: 0,
             previousGuessedNumbers: [],
             hasWon: false,
-            range: '10',
-            hasMounted: false
+            range: this.changeRange(),
+            hasMounted: false,
+            numberOfGuesses: ''
         };
         this.handleInputChange=this.handleInputChange.bind(this);
         this.handleSubmittedGuess=this.handleSubmittedGuess.bind(this);
@@ -83,19 +85,20 @@ class Game extends Component {
         previousGuessContainer.scrollIntoView();
     }
     changeRange(){
-        const {range}= this.state;
-        const rangeArray= [2,10,100,1000,10000,100000,1000000];
-        const newRange= rangeArray[Math.floor(Math.random()*rangeArray.length)];
-        if(parseInt(range)===newRange){
-            this.changeRange();
-            return;
-        }
-        const newRandomNumber= Math.floor(Math.random()*newRange+1);
+        // const {range}= this.state;
+        const seed = Math.random()*19 + 2;
+        const rangeMax = Math.floor(Math.pow(2, seed));
+        let guesses = Math.ceil(seed);
         this.setState({
-            randomNumber: newRandomNumber,
-            range: newRange
-        })
+            numberOfGuesses:guesses
+        });
+
+        const newRandomNumber= Math.floor(Math.random()*rangeMax+1);
+        return newRandomNumber;
     }
+    // getNumberGuesses(){
+    //
+    // }
     reset(){
         const newState= {
             randomNumber: this.getRandomNumber(),
@@ -109,22 +112,18 @@ class Game extends Component {
         this.setState(newState);
     }
     render(){
-        const {guessedNumber, display, guessCounter,previousGuessedNumbers,range}=this.state;
-        let listOfPreviousGuesses=previousGuessedNumbers.map((item,index) =>{
-            return(
-                <li key ={index} className='justify-content-center list-group-item list-group-item-warning'> Previous Guess | {item} </li>
-            )
-        });
+        const {guessedNumber, display, guessCounter,previousGuessedNumbers,range,numberOfGuesses}=this.state;
         let smallStyle= {
             display:"block",
             textAlign: "center"
         };
+        console.log('guess counter, ' , guessCounter);
         return (
             <div className='container'>
                 {/*{!this.state.hasMounted? <h2>Loading</h2>: ''}*/}
                 <div className='jumbotron'>
                     <h1 className="text-center my-3 ">Guess a Number between 1- {range}</h1>
-                    <small style={smallStyle}>You got 5 chances to hit it...Good Luck</small>
+                    <small style={smallStyle}>You got  chances to hit it...Good Luck</small>
                     <hr/>
                     <form onSubmit= {(e)=>{this.handleSubmittedGuess(e)}}>
                         <div className='form-group row'>
@@ -134,9 +133,15 @@ class Game extends Component {
                             </div>
                         </div>
                         <div className=" buttonContainer row">
-                            <button type='button' className='col-xs-12 col-lg-4 btn btn-outline-success'>Submit</button>
+                            <button style= {guessCounter===5? {"display":"none"}:{"display":'inline-block'}}
+                                className='col-xs-12 col-lg-4 btn btn-outline-success'>Submit</button>
+
                             <button onClick={this.reset} type='button' className='col-xs-12 col-lg-4 btn btn-outline-danger'>Reset</button>
-                            <button onClick={this.changeRange} type='button' className=' col-xs-12 col-lg-4 btn btn-outline-warning'>Randomize Range</button>
+
+                            <button style= {guessCounter<5? {"display":"none"}:{"display":'inline-block'}}
+                                    onClick={this.changeRange} type='button'
+                                    className=' col-xs-12 col-lg-4 btn btn-outline-warning'>Randomize Range
+                            </button>
                         </div>
                     </form>
                 <div className='display-div row'>
@@ -146,11 +151,7 @@ class Game extends Component {
                 </div>
                 <div className='row'>
                     <div id = 'previousGuessContainer' className='col-md-8 offset-md-2 col-xs-12 text-center'>
-                        <ul className='list-group'>
-                            <li className='justify-content-center list-group-item list-group-item-danger'> Number of Guesses | {guessCounter}</li>
-                            {listOfPreviousGuesses}
-                        </ul>
-                        {/*<AddHistory history={this.state.previousGuessedNumbers}/>*/}
+                        {previousGuessedNumbers.length>0? <History guessCounter= {guessCounter} guessArray={previousGuessedNumbers}/>: '' }
                     </div>
                 </div>
                 </div>
