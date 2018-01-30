@@ -17,15 +17,13 @@ class Game extends Component {
         this.handleSubmittedGuess=this.handleSubmittedGuess.bind(this);
         this.reset=this.reset.bind(this);
         this.changeRange= this.changeRange.bind(this);
-        this.rainforestMusic= new Audio('./assets/rainforest.mp3');
     }
     componentDidMount(){
         this.setState({
             hasMounted: true
         });
-        this.rainforestMusic.play();
-
     }
+
     getRandomNumber(){
         const randomNumber= Math.floor(Math.random()*10+1);
         return randomNumber;
@@ -111,7 +109,7 @@ class Game extends Component {
         this.setState(newState);
     }
     render(){
-        const {randomNumber,guessedNumber, display, guessCounter,previousGuessedNumbers,range}=this.state;
+        const {guessedNumber, display, guessCounter,previousGuessedNumbers,range}=this.state;
         let listOfPreviousGuesses=previousGuessedNumbers.map((item,index) =>{
             return(
                 <li key ={index} className='justify-content-center list-group-item list-group-item-warning'> Previous Guess | {item} </li>
