@@ -5,30 +5,34 @@ class Game extends Component {
     constructor(props){
         super(props);
         this.state = {
-            randomNumber: this.getRandomNumber(),
+            randomNumber: null,
             guessedNumber: '',
             display: '',
             guessCounter: 0,
             previousGuessedNumbers: [],
             hasWon: false,
-            range: this.changeRange(),
+            range: null,
             hasMounted: false,
-            numberOfGuesses: ''
+            guessesLeft: null
         };
         this.handleInputChange=this.handleInputChange.bind(this);
         this.handleSubmittedGuess=this.handleSubmittedGuess.bind(this);
         this.reset=this.reset.bind(this);
-        this.changeRange= this.changeRange.bind(this);
     }
     componentDidMount(){
-        this.setState({
-            hasMounted: true
-        });
+        this.getRandomValues();
     }
+    getRandomValues(){
+        const seed = Math.random()*5;
+        const rangeMax = Math.floor(Math.pow(3, seed));
+        let guesses = Math.ceil(seed);
+        const newRandomNumber= Math.floor(Math.random()*rangeMax+1);
 
-    getRandomNumber(){
-        const randomNumber= Math.floor(Math.random()*10+1);
-        return randomNumber;
+        this.setState({
+            randomNumber: newRandomNumber,
+            range: rangeMax,
+            guessesLeft:guesses
+        })
     }
     handleInputChange(e){
         const {hasWon}=this.state;
@@ -40,13 +44,13 @@ class Game extends Component {
     }
     handleSubmittedGuess(e){
         e.preventDefault();
-        const {randomNumber,guessedNumber,hasWon,previousGuessedNumbers}= this.state;
+        const {randomNumber,guessedNumber,hasWon,previousGuessedNumbers,guessesLeft}= this.state;
         let {guessCounter}= this.state;
         if(guessedNumber!==''){
             localStorage.setItem('previousGuesses', guessedNumber);
             previousGuessedNumbers.push(guessedNumber);
         }
-        if(guessCounter===5){
+        if(guessesLeft===0){
             this.reset();
             return;
         }
@@ -58,18 +62,20 @@ class Game extends Component {
             }
             if (parseInt(guessedNumber)===randomNumber){
                 this.setState({
-                    display: 'Kid you Guessed it',
+                    display: 'You Guessed it!',
                     guessCounter: guessCounter+1,
                     previousGuessedNumbers: previousGuessedNumbers,
-                    hasWon: true
+                    hasWon: true,
+                    guessesLeft: guessesLeft-1
                 });
-                setTimeout(this.reset,1000)
+                setTimeout(this.reset,3500)
             }else if (parseInt(guessedNumber) < randomNumber){
                 this.setState({
                     guessedNumber:'',
                     display: 'Too Low!',
                     guessCounter: guessCounter+1,
-                    previousGuessedNumbers: previousGuessedNumbers
+                    previousGuessedNumbers: previousGuessedNumbers,
+                    guessesLeft: guessesLeft-1
                 });
             }
             else if (parseInt(guessedNumber) > randomNumber){
@@ -77,70 +83,60 @@ class Game extends Component {
                     guessedNumber:'',
                     display: 'Too High!',
                     guessCounter: guessCounter+1,
-                    previousGuessedNumbers: previousGuessedNumbers
+                    previousGuessedNumbers: previousGuessedNumbers,
+                    guessesLeft: guessesLeft-1
                 });
             }
         }
-        let previousGuessContainer= document.getElementById('previousGuessContainer');
-        previousGuessContainer.scrollIntoView();
     }
-    changeRange(){
-        // const {range}= this.state;
-        const seed = Math.random()*19 + 2;
-        const rangeMax = Math.floor(Math.pow(2, seed));
-        let guesses = Math.ceil(seed);
-        this.setState({
-            numberOfGuesses:guesses
-        });
-
-        const newRandomNumber= Math.floor(Math.random()*rangeMax+1);
-        return newRandomNumber;
-    }
-    // getNumberGuesses(){
-    //
-    // }
     reset(){
+        this.getRandomValues();
         const newState= {
-            randomNumber: this.getRandomNumber(),
             guessedNumber: '',
             display: '',
             guessCounter: 0,
             previousGuessedNumbers: [],
-            hasWon:false
+            hasWon:false,
         };
-        // localStorage.clear();
         this.setState(newState);
     }
     render(){
-        const {guessedNumber, display, guessCounter,previousGuessedNumbers,range,numberOfGuesses}=this.state;
+        console.log('the random number is ', this.state.randomNumber);
+        if(this.state.hasMounted) {
+            return;
+        }
+        const {guessedNumber, display, guessCounter,previousGuessedNumbers,range,guessesLeft,hasWon}=this.state;
         let smallStyle= {
             display:"block",
             textAlign: "center"
         };
-        console.log('guess counter, ' , guessCounter);
         return (
             <div className='container'>
-                {/*{!this.state.hasMounted? <h2>Loading</h2>: ''}*/}
                 <div className='jumbotron'>
                     <h1 className="text-center my-3 ">Guess a Number between 1- {range}</h1>
-                    <small style={smallStyle}>You got  chances to hit it...Good Luck</small>
+                    {!hasWon?
+                        <p style={smallStyle}>{guessesLeft>0? <span id='chancesSpanTag'> {guessesLeft} chances to hit it...Good Luck</span>:
+                            <span id='chancesSpanTag'>{guessesLeft} chances...Game Over! Click reset to start over! </span>}
+                        </p>:
+                        <div style={smallStyle}>
+                            <span className='winSpanText'>Congratulations You Win!!!!</span><br/>
+                            <span className='discretionarySpanText'>Click reset or wait a few moments for auto-reset</span>
+                        </div>
+                    }
                     <hr/>
                     <form onSubmit= {(e)=>{this.handleSubmittedGuess(e)}}>
                         <div className='form-group row'>
                             <div className='col-md-12 col-xs-12 text-center'>
-                                <input onChange={(e)=>{this.handleInputChange(e)}} value={guessedNumber}
+                                <input id='guessInput' onChange={(e)=>{this.handleInputChange(e)}} value={guessedNumber}
                                 className ='form-control text-center' type="number" autoFocus/>
                             </div>
                         </div>
                         <div className=" buttonContainer row">
-                            <button style= {guessCounter===5? {"display":"none"}:{"display":'inline-block'}}
-                                className='col-xs-12 col-lg-4 btn btn-outline-success'>Submit</button>
+                            <button style= {guessesLeft===0 || hasWon? {"display":"none"}:{"display":'inline-block'}}
+                                className='col-xs-12 col-lg-6 btn btn-outline-success'>Submit</button>
 
-                            <button onClick={this.reset} type='button' className='col-xs-12 col-lg-4 btn btn-outline-danger'>Reset</button>
-
-                            <button style= {guessCounter<5? {"display":"none"}:{"display":'inline-block'}}
-                                    onClick={this.changeRange} type='button'
-                                    className=' col-xs-12 col-lg-4 btn btn-outline-warning'>Randomize Range
+                            <button onClick={this.reset} type='button'
+                                    className={guessesLeft!==0 && !hasWon? 'col-xs-12 col-lg-6 btn btn-outline-danger':'col-xs-12 col-lg-6 offset-lg-3 btn btn-outline-danger'}>Reset
                             </button>
                         </div>
                     </form>

@@ -1,20 +1,31 @@
 body{
     height: 100%;
     background-image: url("https://cdn-media-2.lifehack.org/wp-content/files/2012/12/Nature_2-1024x768.jpg");
-    /*background-repeat: no-repeat;*/
-    /*background-size: cover;*/
-
-
 }
+
 .container{
     position: absolute;
     top: 50%;
     /*left: 50%;*/
     transform: translateY(-50%);
 }
+#chancesSpanTag{
+    color: red
+}
 .buttonContainer{
-    margin: auto;
+    margin: 5%;
 }
 div.jumbotron{
     opacity: 0.8;
+}
+.winSpanText{
+    color: green;
+}
+
+@media only screen and (min-width: 769px) {
+    .container {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
