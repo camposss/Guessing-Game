@@ -4,6 +4,8 @@ import History from './add_history';
 class Game extends Component {
     constructor(props){
         super(props);
+        this.backgroundSound = new Audio('assets/rainforest.mp3');
+        this.backgroundSound.loop=true;
         this.state = {
             randomNumber: null,
             guessedNumber: '',
@@ -13,7 +15,8 @@ class Game extends Component {
             hasWon: false,
             range: null,
             hasMounted: false,
-            guessesLeft: null
+            guessesLeft: null,
+            musicOn: this.checkUserPreference()
         };
         this.handleInputChange=this.handleInputChange.bind(this);
         this.handleSubmittedGuess=this.handleSubmittedGuess.bind(this);
@@ -21,6 +24,38 @@ class Game extends Component {
     }
     componentDidMount(){
         this.getRandomValues();
+        // this.backgroundSound.play();
+        // if(localStorage.getItem('musicOn')===true){
+        //     this.setState({
+        //         musicOn: true
+        //     })
+        // } else{
+        //     localStorage.setItem('musicOn',true);
+        // }
+    }
+    checkUserPreference(){
+        if(localStorage.getItem('musicOn')){
+            let userPreference= true;
+            this.backgroundSound.play();
+            return userPreference
+        }else{
+            let userPreference = false;
+            this.backgroundSound.pause();
+            return userPreference;
+        }
+    }
+    toggleSound(){
+        const {musicOn}= this.state;
+        if(musicOn){
+            this.backgroundSound.pause();
+            localStorage.removeItem('musicOn');
+        }else{
+            this.backgroundSound.play();
+            localStorage.setItem('musicOn',true);
+        }
+        this.setState({
+            musicOn: !musicOn
+        })
     }
     getRandomValues(){
         const seed = Math.random()*5;
@@ -35,12 +70,14 @@ class Game extends Component {
         })
     }
     handleInputChange(e){
-        const {hasWon}=this.state;
-        if(hasWon===false){
+        const {hasWon,guessesLeft}=this.state;
+        if(hasWon===false && guessesLeft!==0){
             this.setState({
                 guessedNumber: e.target.value
             })
         }
+            return;
+
     }
     handleSubmittedGuess(e){
         e.preventDefault();
@@ -68,7 +105,7 @@ class Game extends Component {
                     hasWon: true,
                     guessesLeft: guessesLeft-1
                 });
-                setTimeout(this.reset,3500)
+                // setTimeout(this.reset,3500)
             }else if (parseInt(guessedNumber) < randomNumber){
                 this.setState({
                     guessedNumber:'',
@@ -105,7 +142,7 @@ class Game extends Component {
         if(this.state.hasMounted) {
             return;
         }
-        const {guessedNumber, display, guessCounter,previousGuessedNumbers,range,guessesLeft,hasWon}=this.state;
+        const {guessedNumber, display, previousGuessedNumbers,range,guessesLeft,hasWon}=this.state;
         let smallStyle= {
             display:"block",
             textAlign: "center"
@@ -113,14 +150,18 @@ class Game extends Component {
         return (
             <div className='container'>
                 <div className='jumbotron'>
-                    <h1 className="text-center my-3 ">Guess a Number between 1- {range}</h1>
+                    <button className='btn btn-outline-primary' onClick={()=>this.toggleSound()}>Turn Sound {this.state.musicOn? 'Off': ' On'} </button>
+                    {/*<audio src="assets/rainforest.mp3" autoPlay>*/}
+                        {/**/}
+                    {/*</audio>*/}
+                    <h1 className="text-center my-3 ">Guess a Number between 1 - {range}</h1>
                     {!hasWon?
                         <p style={smallStyle}>{guessesLeft>0? <span id='chancesSpanTag'> {guessesLeft} chances to hit it...Good Luck</span>:
                             <span id='chancesSpanTag'>{guessesLeft} chances...Game Over! Click reset to start over! </span>}
                         </p>:
                         <div style={smallStyle}>
                             <span className='winSpanText'>Congratulations You Win!!!!</span><br/>
-                            <span className='discretionarySpanText'>Click reset or wait a few moments for auto-reset</span>
+                            <span className='discretionarySpanText'>Click reset to play again</span>
                         </div>
                     }
                     <hr/>
@@ -147,7 +188,7 @@ class Game extends Component {
                 </div>
                 <div className='row'>
                     <div id = 'previousGuessContainer' className='col-md-8 offset-md-2 col-xs-12 text-center'>
-                        {previousGuessedNumbers.length>0? <History guessCounter= {guessCounter} guessArray={previousGuessedNumbers}/>: '' }
+                        {previousGuessedNumbers.length>0? <History guessesLeft= {guessesLeft} guessArray={previousGuessedNumbers}/>: '' }
                     </div>
                 </div>
                 </div>
