@@ -15,9 +15,9 @@ body{
 .buttonContainer{
     margin: 5%;
 }
-/*input{*/
-    /*cursor: pointer!important ;*/
-/*}*/
+button, input{
+    cursor: pointer ;
+}
 div.jumbotron{
     opacity: 0.8;
 }
