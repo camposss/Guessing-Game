@@ -4,14 +4,15 @@ body{
 }
 
 .container{
-    position: absolute;
-    top: 25%;
-    left: 50%;
+    /*position: absolute;*/
+    /*top: 10%;*/
     /*left: 50%;*/
-    transform: translateX(-50%);
+    /*!*left: 50%;*!*/
+    /*transform: translateX(-50%);*/
 }
 .previousGuessesRow{
-    height: 35%;
+    /*height: 45%;*/
+    padding-top: 5%;
 }
 .previousGuessesContainer{
     height: 100%;
@@ -21,40 +22,58 @@ body{
     color: red
 }
 .buttonContainer{
-    margin: 2%;
+    /*margin: 2%;*/
 }
 button, input{
     cursor: pointer ;
 }
 div.jumbotron{
-    height: 500px;
     opacity: 0.8;
     padding: 32px;
 }
 .winSpanText{
     color: green;
 }
+.guessNowHeader{
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    transform: translateY(-50%);
+}
 
 @media only screen and (max-width: 769px) {
     .container{
         width: 90vw;
         position: absolute;
-        top: 15%;
+        top: 5%;
         left: 50%;
-        /*left: 50%;*/
+        /* left: 50%; */
         transform: translateX(-50%);
-
+    }
+    h2{
+        font-size: 1.5rem;
+    }
+    p{
+        height: 48px;
     }
     div.jumbotron {
         width: 100%;
-        height: 500px;
-        /*top: 25%;*/
-        /*left: 50%;*/
-        /*transform: translateX(-50%);*/
+        /* max-height: 90vh; */
+        /* min-height: 398px; */
+        /* top: 25%; */
+        overflow-y: auto;
+        /* left: 50%; */
+        /* transform: translateX(-50%); */
+    }
+    .guessNowHeader{
+        position: absolute;
+        top: 50%;
+        left: 15%;
+        transform: translateY(-50%);
     }
     .previousGuessesRow{
-        height: 20%;
-        overflow-y: scroll;
+        /*height: 40%;*/
+        /*overflow-y: scroll;*/
     }
     ::-webkit-scrollbar {
         -webkit-appearance: none;
@@ -62,7 +81,7 @@ div.jumbotron{
     }
     ::-webkit-scrollbar-thumb {
         border-radius: 4px;
-        background-color: rgba(0,0,0,.5);
+        background-color: rgba(0,0,0,.3);
         -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
     }
 }

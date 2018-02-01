@@ -8,6 +8,7 @@ class History extends Component {
         const list= guessArray.map((item,index)=>{
             return <li key ={index} className='justify-content-center list-group-item list-group-item-warning'> Previous Guess | {item}</li>
         });
+        list.reverse();
         return(
             <ul className='list-group previousGuessesContainer'>
                 <li className='justify-content-center list-group-item list-group-item-danger'> Guesses Left | {this.props.guessesLeft}</li>

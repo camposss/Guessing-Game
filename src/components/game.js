@@ -50,8 +50,8 @@ class Game extends Component {
         })
     }
     getRandomValues(){
-        const seed = Math.random()*6+1;
-        const rangeMax = Math.floor(Math.pow(3, seed));
+        const seed = Math.random()*15+1;
+        const rangeMax = Math.floor(Math.pow(2, seed));
         let guesses = Math.ceil(seed);
         const newRandomNumber= Math.floor(Math.random()*rangeMax+1);
 
@@ -91,7 +91,7 @@ class Game extends Component {
             }
             if (parseInt(guessedNumber)===randomNumber){
                 this.setState({
-                    display: 'You Guessed it!',
+                    display: '',
                     guessCounter: guessCounter+1,
                     previousGuessedNumbers: previousGuessedNumbers,
                     hasWon: true,
@@ -142,7 +142,7 @@ class Game extends Component {
         return (
             <div className='container'>
                 <div className='jumbotron'>
-                    <button className='btn btn-outline-primary' onClick={()=>this.toggleSound()}>Turn Sound {this.state.musicOn? 'Off': ' On'} </button>
+                    <button className='btn btn-primary' onClick={()=>this.toggleSound()}>Turn Sound {this.state.musicOn? 'Off': ' On'} </button>
                     <h2 className="text-center my-3 ">Guess a Number between 1 - {range}</h2>
                     {!hasWon?
                         <p style={smallStyle}>{guessesLeft>0? <span id='chancesSpanTag'> {guessesLeft} chances to hit it...Good Luck</span>:
@@ -153,6 +153,11 @@ class Game extends Component {
                             <span className='discretionarySpanText'>Click reset to play again</span>
                         </div>
                     }
+                    <div className='row'>
+                        <div className='col-md-8 offset-md-2 col-xs-12 text-center'>
+                            {display}
+                        </div>
+                    </div>
                     <hr/>
                     <form onSubmit= {(e)=>{this.handleSubmittedGuess(e)}}>
                         <div className='form-group row'>
@@ -163,20 +168,21 @@ class Game extends Component {
                         </div>
                         <div className="buttonContainer row">
                             <button style= {guessesLeft===0 || hasWon? {"display":"none"}:{"display":'inline-block'}}
-                                className=' col-xs-12 col-lg-6 btn btn-outline-success'>Submit</button>
+                                className=' col btn btn-success'>Submit</button>
 
                             <button onClick={this.reset} type='button'
-                                    className={guessesLeft!==0 && !hasWon? 'col-xs-12 col-lg-6 btn btn-outline-danger':'col-xs-12 col-lg-6 offset-lg-3 btn btn-outline-danger'}>Reset
+                                    className={guessesLeft!==0 && !hasWon? 'col btn btn-danger':'col-sm-12 col-lg-6 offset-lg-3 btn btn-outline-danger'}>Reset
                             </button>
                         </div>
                     </form>
-                <div className='row'>
-                    <div className='col-md-8 offset-md-2 col-xs-12 text-center'>
-                        {display}
-                    </div>
-                </div>
+                {/*<div className='row'>*/}
+                    {/*<div className='col-md-8 offset-md-2 col-xs-12 text-center'>*/}
+                        {/*{display}*/}
+                    {/*</div>*/}
+                {/*</div>*/}
                 <div className='row previousGuessesRow'>
                     <div className='col-md-8 offset-md-2 col-xs-12 text-center'>
+                        {!previousGuessedNumbers.length? <h2 className='text-center guessNowHeader align-middle'>Start Guessing Now!</h2>: ''}
                         {previousGuessedNumbers.length>0? <History guessesLeft= {guessesLeft} guessArray={previousGuessedNumbers}/>: '' }
                     </div>
                 </div>
