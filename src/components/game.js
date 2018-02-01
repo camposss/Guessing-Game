@@ -143,9 +143,6 @@ class Game extends Component {
             <div className='container'>
                 <div className='jumbotron'>
                     <button className='inputButton btn btn-outline-primary' onClick={()=>this.toggleSound()}>Turn Sound {this.state.musicOn? 'Off': ' On'} </button>
-                    {/*<audio src="assets/rainforest.mp3" autoPlay>*/}
-                        {/**/}
-                    {/*</audio>*/}
                     <h1 className="text-center my-3 ">Guess a Number between 1 - {range}</h1>
                     {!hasWon?
                         <p style={smallStyle}>{guessesLeft>0? <span id='chancesSpanTag'> {guessesLeft} chances to hit it...Good Luck</span>:
