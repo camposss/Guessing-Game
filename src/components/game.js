@@ -24,14 +24,6 @@ class Game extends Component {
     }
     componentDidMount(){
         this.getRandomValues();
-        // this.backgroundSound.play();
-        // if(localStorage.getItem('musicOn')===true){
-        //     this.setState({
-        //         musicOn: true
-        //     })
-        // } else{
-        //     localStorage.setItem('musicOn',true);
-        // }
     }
     checkUserPreference(){
         if(localStorage.getItem('musicOn')){
@@ -150,7 +142,7 @@ class Game extends Component {
         return (
             <div className='container'>
                 <div className='jumbotron'>
-                    <button className='btn btn-outline-primary' onClick={()=>this.toggleSound()}>Turn Sound {this.state.musicOn? 'Off': ' On'} </button>
+                    <button className='inputButton btn btn-outline-primary' onClick={()=>this.toggleSound()}>Turn Sound {this.state.musicOn? 'Off': ' On'} </button>
                     {/*<audio src="assets/rainforest.mp3" autoPlay>*/}
                         {/**/}
                     {/*</audio>*/}
@@ -167,17 +159,17 @@ class Game extends Component {
                     <hr/>
                     <form onSubmit= {(e)=>{this.handleSubmittedGuess(e)}}>
                         <div className='form-group row'>
-                            <div className='col-md-12 col-xs-12 text-center'>
+                            <div className=' col-md-12 col-xs-12 text-center'>
                                 <input id='guessInput' onChange={(e)=>{this.handleInputChange(e)}} value={guessedNumber}
-                                className ='form-control text-center' type="number" autoFocus/>
+                                className ='inputButton form-control text-center' type="number" autoFocus/>
                             </div>
                         </div>
                         <div className=" buttonContainer row">
                             <button style= {guessesLeft===0 || hasWon? {"display":"none"}:{"display":'inline-block'}}
-                                className='col-xs-12 col-lg-6 btn btn-outline-success'>Submit</button>
+                                className='inputButton col-xs-12 col-lg-6 btn btn-outline-success'>Submit</button>
 
                             <button onClick={this.reset} type='button'
-                                    className={guessesLeft!==0 && !hasWon? 'col-xs-12 col-lg-6 btn btn-outline-danger':'col-xs-12 col-lg-6 offset-lg-3 btn btn-outline-danger'}>Reset
+                                    className={guessesLeft!==0 && !hasWon? 'inputButton col-xs-12 col-lg-6 btn btn-outline-danger':'inputButton col-xs-12 col-lg-6 offset-lg-3 btn btn-outline-danger'}>Reset
                             </button>
                         </div>
                     </form>
