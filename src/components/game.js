@@ -142,8 +142,8 @@ class Game extends Component {
         return (
             <div className='container'>
                 <div className='jumbotron'>
-                    <button className='inputButton btn btn-outline-primary' onClick={()=>this.toggleSound()}>Turn Sound {this.state.musicOn? 'Off': ' On'} </button>
-                    <h1 className="text-center my-3 ">Guess a Number between 1 - {range}</h1>
+                    <button className='btn btn-outline-primary' onClick={()=>this.toggleSound()}>Turn Sound {this.state.musicOn? 'Off': ' On'} </button>
+                    <h2 className="text-center my-3 ">Guess a Number between 1 - {range}</h2>
                     {!hasWon?
                         <p style={smallStyle}>{guessesLeft>0? <span id='chancesSpanTag'> {guessesLeft} chances to hit it...Good Luck</span>:
                             <span id='chancesSpanTag'>{guessesLeft} chances...Game Over! Click reset to start over! </span>}
@@ -158,15 +158,15 @@ class Game extends Component {
                         <div className='form-group row'>
                             <div className=' col-md-12 col-xs-12 text-center'>
                                 <input id='guessInput' onChange={(e)=>{this.handleInputChange(e)}} value={guessedNumber}
-                                className ='inputButton form-control text-center' type="number" autoFocus/>
+                                className ='form-control text-center' type="number" autoFocus/>
                             </div>
                         </div>
-                        <div className=" buttonContainer row">
+                        <div className="buttonContainer row">
                             <button style= {guessesLeft===0 || hasWon? {"display":"none"}:{"display":'inline-block'}}
-                                className='inputButton col-xs-12 col-lg-6 btn btn-outline-success'>Submit</button>
+                                className=' col-xs-12 col-lg-6 btn btn-outline-success'>Submit</button>
 
                             <button onClick={this.reset} type='button'
-                                    className={guessesLeft!==0 && !hasWon? 'inputButton col-xs-12 col-lg-6 btn btn-outline-danger':'inputButton col-xs-12 col-lg-6 offset-lg-3 btn btn-outline-danger'}>Reset
+                                    className={guessesLeft!==0 && !hasWon? 'col-xs-12 col-lg-6 btn btn-outline-danger':'col-xs-12 col-lg-6 offset-lg-3 btn btn-outline-danger'}>Reset
                             </button>
                         </div>
                     </form>

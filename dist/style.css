@@ -1,6 +1,6 @@
 body{
     height: 100%;
-    background-image: url("https://cdn-media-2.lifehack.org/wp-content/files/2012/12/Nature_2-1024x768.jpg");
+    background-image: url("http://natlands.org/wp-content/uploads/2017/06/morsam010004-e1496670033137-2560x1160.jpg");
 }
 
 .container{
@@ -13,13 +13,14 @@ body{
     color: red
 }
 .buttonContainer{
-    margin: 5%;
+    margin: 2%;
 }
 button, input{
     cursor: pointer ;
 }
 div.jumbotron{
     opacity: 0.8;
+    padding: 32px;
 }
 .winSpanText{
     color: green;
