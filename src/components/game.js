@@ -50,7 +50,7 @@ class Game extends Component {
         })
     }
     getRandomValues(){
-        const seed = Math.random()*5;
+        const seed = Math.random()*6+1;
         const rangeMax = Math.floor(Math.pow(3, seed));
         let guesses = Math.ceil(seed);
         const newRandomNumber= Math.floor(Math.random()*rangeMax+1);
@@ -170,13 +170,13 @@ class Game extends Component {
                             </button>
                         </div>
                     </form>
-                <div className='display-div row'>
-                    <div className='col-8 push-2 text-center'>
+                <div className='row'>
+                    <div className='col-md-8 offset-md-2 col-xs-12 text-center'>
                         {display}
                     </div>
                 </div>
-                <div className='row'>
-                    <div id = 'previousGuessContainer' className='col-md-8 offset-md-2 col-xs-12 text-center'>
+                <div className='row previousGuessesRow'>
+                    <div className='col-md-8 offset-md-2 col-xs-12 text-center'>
                         {previousGuessedNumbers.length>0? <History guessesLeft= {guessesLeft} guessArray={previousGuessedNumbers}/>: '' }
                     </div>
                 </div>
