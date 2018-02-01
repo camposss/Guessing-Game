@@ -168,10 +168,10 @@ class Game extends Component {
                         </div>
                         <div className="buttonContainer row">
                             <button style= {guessesLeft===0 || hasWon? {"display":"none"}:{"display":'inline-block'}}
-                                className=' col btn btn-success'>Submit</button>
+                                className=' col-6 btn btn-success'>Submit</button>
 
                             <button onClick={this.reset} type='button'
-                                    className={guessesLeft!==0 && !hasWon? 'col btn btn-danger':'col-sm-12 col-lg-6 offset-lg-3 btn btn-outline-danger'}>Reset
+                                    className={guessesLeft!==0 && !hasWon? 'col-6 btn btn-danger':'col-sm-12 col-lg-6 offset-lg-3 btn btn-danger'}>Reset
                             </button>
                         </div>
                     </form>
@@ -182,7 +182,7 @@ class Game extends Component {
                 {/*</div>*/}
                 <div className='row previousGuessesRow'>
                     <div className='col-md-8 offset-md-2 col-xs-12 text-center'>
-                        {!previousGuessedNumbers.length? <h2 className='text-center guessNowHeader align-middle'>Start Guessing Now!</h2>: ''}
+                        {!previousGuessedNumbers.length? <h2 className='text-center guessNowHeader'>Start Guessing Now!</h2>: ''}
                         {previousGuessedNumbers.length>0? <History guessesLeft= {guessesLeft} guessArray={previousGuessedNumbers}/>: '' }
                     </div>
                 </div>
