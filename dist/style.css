@@ -16,7 +16,7 @@ body{
 }
 .previousGuessesContainer{
     height: 100%;
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
 }
 #chancesSpanTag{
     color: red
@@ -35,11 +35,9 @@ div.jumbotron{
 .winSpanText{
     color: green;
 }
-.guessNowHeader{
-    position: absolute;
-    top: 50%;
-    left: 25%;
-    transform: translateY(-50%);
+.rangeSpanText{
+    /*overflow-wrap: normal;*/
+    display: inline-block;
 }
 
 @media only screen and (max-width: 769px) {
@@ -66,12 +64,7 @@ div.jumbotron{
         /* left: 50%; */
         /* transform: translateX(-50%); */
     }
-    .guessNowHeader{
-        position: absolute;
-        top: 50%;
-        left: 15%;
-        transform: translateY(-50%);
-    }
+
     .previousGuessesRow{
         /*height: 40%;*/
         /*overflow-y: scroll;*/

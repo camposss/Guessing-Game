@@ -143,7 +143,7 @@ class Game extends Component {
             <div className='container'>
                 <div className='jumbotron'>
                     <button className='btn btn-primary' onClick={()=>this.toggleSound()}>Turn Sound {this.state.musicOn? 'Off': ' On'} </button>
-                    <h2 className="text-center my-3 ">Guess a Number between 1 - {range}</h2>
+                    <h2 className="text-center my-3 ">Guess a Number between <span className='rangeSpanText'>1 - {range}</span>  </h2>
                     {!hasWon?
                         <p style={smallStyle}>{guessesLeft>0? <span id='chancesSpanTag'> {guessesLeft} chances to hit it...Good Luck</span>:
                             <span id='chancesSpanTag'>{guessesLeft} chances...Game Over! Click reset to start over! </span>}
@@ -182,7 +182,7 @@ class Game extends Component {
                 {/*</div>*/}
                 <div className='row previousGuessesRow'>
                     <div className='col-md-8 offset-md-2 col-xs-12 text-center'>
-                        {!previousGuessedNumbers.length? <h2 className='text-center guessNowHeader'>Start Guessing Now!</h2>: ''}
+                        {!previousGuessedNumbers.length? <h2 className='text-center'>Start Guessing Now!</h2>: ''}
                         {previousGuessedNumbers.length>0? <History guessesLeft= {guessesLeft} guessArray={previousGuessedNumbers}/>: '' }
                     </div>
                 </div>
