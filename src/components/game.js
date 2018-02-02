@@ -4,7 +4,7 @@ import History from './add_history';
 class Game extends Component {
     constructor(props){
         super(props);
-        this.backgroundSound = new Audio('assets/rainforest.mp3');
+        this.backgroundSound = new Audio('dist/assets/rainforest.mp3');
         this.backgroundSound.loop=true;
         this.state = {
             randomNumber: null,
